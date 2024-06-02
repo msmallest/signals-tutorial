@@ -3,11 +3,12 @@ import {JsonPipe} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";
 import {HighlightJsDirective} from "ngx-highlight-js";
 import {SignalInputComponent} from "./signal-input/signal-input.component";
+import {ComparatorTypesComponent} from "./comparator-types/comparator-types.component";
 
 @Component({
   selector: 'app-misc-examples',
   standalone: true,
-  imports: [JsonPipe, MatButtonModule, HighlightJsDirective, SignalInputComponent],
+  imports: [JsonPipe, MatButtonModule, HighlightJsDirective, SignalInputComponent, ComparatorTypesComponent],
   template: `
     <div id="double-example">
       <h2>Setting Signal Values</h2>
@@ -27,6 +28,7 @@ import {SignalInputComponent} from "./signal-input/signal-input.component";
       </div>
     </div>
     <app-signal-input />
+    <app-comparator-types />
   `,
   styles: `
     #double-example {

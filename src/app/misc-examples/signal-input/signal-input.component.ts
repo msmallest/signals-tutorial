@@ -6,7 +6,7 @@ import {FormsModule} from "@angular/forms";
   selector: 'app-child',
   standalone: true,
   template: `
-    <pre highlight-js lang="typescript">$value = input.required&lt;string&gt;() // {{ $value() }}</pre>
+    <pre highlight-js lang="typescript">$value = input.required&lt;string&gt;(); // {{ $value() }}</pre>
     <pre highlight-js lang="typescript">{{valueScreamingStr}} // {{ $valueScreaming() }}</pre>
   `,
   imports: [HighlightJsDirective]
