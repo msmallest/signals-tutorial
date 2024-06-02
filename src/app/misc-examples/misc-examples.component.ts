@@ -2,13 +2,15 @@ import {Component, computed, signal} from '@angular/core';
 import {JsonPipe} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";
 import {HighlightJsDirective} from "ngx-highlight-js";
+import {SignalInputComponent} from "./signal-input/signal-input.component";
 
 @Component({
   selector: 'app-misc-examples',
   standalone: true,
-  imports: [JsonPipe, MatButtonModule, HighlightJsDirective],
+  imports: [JsonPipe, MatButtonModule, HighlightJsDirective, SignalInputComponent],
   template: `
     <div id="double-example">
+      <h2>Setting Signal Values</h2>
       <div class="text">Updating a signal with
         <pre highlight-js lang="typescript">.set()</pre>
         and
@@ -24,6 +26,7 @@ import {HighlightJsDirective} from "ngx-highlight-js";
              lang="typescript">$doubleValue = computed(() => this.$value() * 2); // {{ $doubleValue() }}</pre>
       </div>
     </div>
+    <app-signal-input />
   `,
   styles: `
     #double-example {
@@ -32,8 +35,6 @@ import {HighlightJsDirective} from "ngx-highlight-js";
       gap: 10px;
       align-items: center;
     }
-
-
   `
 })
 export class MiscExamplesComponent {
