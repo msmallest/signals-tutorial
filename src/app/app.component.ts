@@ -10,9 +10,9 @@ import {MiscExamplesComponent} from "./misc-examples/misc-examples.component";
   imports: [RouterOutlet, SignalsAboutComponent, SignalApisComponent, MiscExamplesComponent],
   template: `
     <h1>Signals Tutorial</h1>
-    <app-misc-examples />
-<!--    <app-signals-about />-->
-<!--    <app-signal-apis />-->
+   <app-signals-about />
+   <app-signal-apis />
+   <app-misc-examples />
   `,
 })
 export class AppComponent {}

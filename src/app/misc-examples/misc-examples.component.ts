@@ -1,14 +1,16 @@
 import {Component, computed, signal} from '@angular/core';
-import {JsonPipe} from "@angular/common";
+import {AsyncPipe, JsonPipe} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";
 import {HighlightJsDirective} from "ngx-highlight-js";
 import {SignalInputComponent} from "./signal-input/signal-input.component";
 import {ComparatorTypesComponent} from "./comparator-types/comparator-types.component";
+import { map, of } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-misc-examples',
   standalone: true,
-  imports: [JsonPipe, MatButtonModule, HighlightJsDirective, SignalInputComponent, ComparatorTypesComponent],
+  imports: [JsonPipe, MatButtonModule, HighlightJsDirective, SignalInputComponent, ComparatorTypesComponent, AsyncPipe],
   template: `
     <div id="double-example">
       <h2>Setting Signal Values</h2>
@@ -29,6 +31,15 @@ import {ComparatorTypesComponent} from "./comparator-types/comparator-types.comp
     </div>
     <app-signal-input />
     <app-comparator-types />
+    <h2>WIP: interop TODO MOVE TO OWN HIGHLIGHTED COMPONENT</h2>
+    <p><code>toSignal(this.someObservable$)</code> to access and then compute things from a signal</p>
+    <p>Note how it is easier to use in the template</p>
+    <pre>valueFromDatabase$ {{valueFromDatabase$ | async | json}}</pre>
+    <pre>$valueFromDatabase {{$valueFromDatabase() | json }}</pre>
+
+    <p>And compare how these values are derived in the component</p>
+    <pre>derivedFromDatabase$ {{derivedFromDatabase$ | async | json}}</pre>
+    <pre>$derivedFromDatabase {{$derivedFromDatabase() | json }}</pre>
   `,
   styles: `
     #double-example {
@@ -47,4 +58,17 @@ export class MiscExamplesComponent {
   updateValue() {
     this.value.update(v => v + 1)
   }
+
+  // Pretend this is a call to some service
+  valueFromDatabase$ = of([{name: 'Dave'}, {name: 'Jeff'}])
+  // Note - initialValue is optional, w/o it it is typed including `| undefined`
+  $valueFromDatabase = toSignal(this.valueFromDatabase$, {initialValue: []})
+
+  // Need to know to pipe the observable and then use an RXJS map
+  derivedFromDatabase$ = this.valueFromDatabase$.pipe(
+    map((value) => value.map(v => v.name.toUpperCase()))
+  )
+  // Need to know to use a `computed`, then otherwise use a normal JS pipe
+  // The simplicity is even better once you need more things like conditionals and dont't need an RXJS `filter` or whatnot
+  $derivedFromDatabase = computed(() => this.$valueFromDatabase().map(value => value.name.toUpperCase()))
 }
